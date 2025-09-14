@@ -1,3 +1,5 @@
+/* code to draw five lines using GL_LINES */
+
 // Include standard headers
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,31 +67,11 @@ int main( void )
 
 
     static const GLfloat g_vertex_buffer_data[5][6] = {
-        {
-            // Triangle 1
-            -1.0f, -1.0f, 0.0f,
-            -0.5f, -1.0f, 0.0f,
-        },
-        {
-            // Triangle 2
-            -0.25f, -1.0f, 0.0f,
-            0.25f, -1.0f, 0.0f,
-        },
-        {
-            // Triangle 3
-            0.5f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-        },
-        {
-            // Triangle 4
-            -0.75f, 0.0f, 0.0f,
-            -0.25f, 0.0f, 0.0f,
-        },
-        {
-            // Triangle 5
-            0.25f, 0.0f, 0.0f,
-            0.75f, 0.0f, 0.0f,
-        }
+        { -0.9f, -0.8f, 0.0f,   -0.2f, 0.8f, 0.0f }, // Line 1
+            { -0.7f, -0.8f, 0.0f,    0.5f, -0.2f, 0.0f }, // Line 2
+            { -0.5f, -0.7f, 0.0f,    0.9f, -0.3f, 0.0f }, // Line 3
+            { -0.2f, -0.1f, 0.0f,    0.9f, 0.9f, 0.0f }, // Line 4
+            { -0.2f, 0.3f, 0.0f,    0.8f, 0.1f, 0.0f }, // Line 5
     };
 
 	GLuint vertexbuffer[5];
@@ -109,24 +91,21 @@ int main( void )
 
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(0);
         for (int i = 0; i < 5; i++) {
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer[i]);
             glVertexAttribPointer(
                                   0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-                                  2,                  // size
+                                  3,                  // size
                                   GL_FLOAT,           // type
                                   GL_FALSE,           // normalized?
                                   0,                  // stride
                                   (void*)0            // array buffer offset
                                   );
-            glEnableVertexAttribArray(0);
-            
             // Draw the triangle !
-            glDrawArrays(GL_LINES, 0, 2); // 3 indices starting at 0 -> 1 triangle
-            
-            glDisableVertexAttribArray(0);
+            glDrawArrays(GL_LINES, 0, 2); // DRAW 1 LINE PER BUFFER
         }
-
+        glDisableVertexAttribArray(0);
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
